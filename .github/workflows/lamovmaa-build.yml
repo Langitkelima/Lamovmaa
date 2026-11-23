@@ -2,6 +2,7 @@
 # Resep sama dengan baseline G1: Java 17 (Temurin), Flutter 3.44.7 stable, ZANGETSU_NO_DISCORD=1,
 # tanpa google-services.json. Tidak ada rahasia/kunci di berkas ini (keystore menyusul di PART berikutnya).
 # Berkas ZIP wajib bernama Lamovmaa-main.zip di root repo.
+# Hanya dijalankan manual (Run workflow); unggah ZIP tidak memicu build otomatis. Run kedua akan menunggu, tidak membatalkan run pertama.
 name: Build Lamovmaa
 
 on:
@@ -16,13 +17,10 @@ on:
         description: "Kurangi memori Gradle (coba bila gagal kehabisan memori)"
         type: boolean
         default: false
-  push:
-    paths:
-      - "Lamovmaa-main.zip"
 
 concurrency:
   group: build-lamovmaa
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
