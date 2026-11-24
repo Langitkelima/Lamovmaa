@@ -94,9 +94,12 @@ jobs:
           {
             echo "## Identitas APK"
             if [ -n "$AAPT" ]; then
-              BADGE=$("$AAPT" dump badging "$APK" 2>/dev/null | head -n 40)
+              BADGE=$("$AAPT" dump badging "$APK" 2>/dev/null)
               echo '```'
               echo "$BADGE" | grep -E "^package:|^application-label:|^sdkVersion|^targetSdkVersion|native-code" || true
+              echo "--- izin (uses-permission):"
+              echo "$BADGE" | grep -E "^uses-permission" | sed -E "s/uses-permission(-sdk-23)?: name=//" | sort -u || true
+              echo "--- pengenal iklan/telemetri (harus 0): $(echo "$BADGE" | grep -cE "AD_ID|ADSERVICES|c2dm|firebase" || true)"
               echo '```'
               echo "$BADGE" | grep -q "name='com.lamovmaa.app'" || { echo "PACKAGE TIDAK SESUAI (harus com.lamovmaa.app)"; exit 1; }
             else
